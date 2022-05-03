@@ -40,7 +40,7 @@
 				<tr>
 					<th scope="col">번호</th>
 					<th scope="col">제목</th>
-					<th scope="col">글쓴이</th>
+					<th scope="col">작성자</th>
 					<th scope="col">작성일</th>
 					<th scope="col">조회수</th>
 				</tr>
@@ -49,7 +49,7 @@
 				<tr>
 					<td><a href="#" title="no">번호</a></td>
 					<td><a href="#" title="title">제목</a></td>
-					<td>글쓴이 출력</td>
+					<td>작성자 출력</td>
 					<td>작성일 출력</td>
 					<td>조회수 출력</td>
 				</tr>

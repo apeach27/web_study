@@ -9,12 +9,13 @@
 
 	$row = mysqli_fetch_array($result);
 
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>read</title>
+    <title>reply</title>
     <style>
         *{margin:0; padding:0;}
 	    body{margin:0; padding:0; font:12px/1.2em "Malgun Gothic";}
@@ -34,10 +35,26 @@
         form input:not(.button){width:8rem; text-indent:10px; font-size:12px;}
         form textarea{width:45rem; height:400px; padding-left: 10px;}
         form label[for="content"]{line-height:400px;}
-
         form .btnArea{display: unset; margin: 0 auto;}
 
+		#reply{display: none;}
+		#reply textarea{height: 100px;}
+
     </style>
+	<script type="text/javascript">
+
+		let display = true;
+
+		function reDisplay(){
+			let re = document.getElementById("reply");
+			if(re.style.display=='block'){
+				re.style.display = 'none';
+			}else{
+				re.style.display = 'block';
+			}
+		}
+
+	</script>
 </head>
 <body>
     <div id="wrap">
@@ -48,6 +65,8 @@
 					<h2>자유게시판</h2>
 					<p>도현쓰 게시판입니다!</p>
 				</div>
+
+<!-- board Area -->
 				<form action="#" method="POST">
 					<p>
 						<label for="title">제목</label>
@@ -80,18 +99,41 @@
 					<p class="btnArea">
                         <a href="01_list.php" title="목록"><input class="button" type="button" value="목록"/></a>
 						<a href="04_modify.php?no=<?=$row['no']?>" title="수정"><input class="button" type="button" value="수정"/></a>
-						<a href="06_reply.php?no=<?=$row['no']?>" title="댓글"><input class="button" type="button" value="댓글"/></a>
+						<a href="javascript:reDisplay();" title="댓글"><input class="button" type="button" value="댓글"/></a>
 						<a href="05_delete.php?no=<?=$row['no']?>" title="삭제"><input class="button" type="button" value="삭제"/></a>	
+					</p>
+				</form>
+
+<!-- replay Area -->
+
+				<form id="reply" action="06_reply_control.php" method="POST">
+					<p>
+						<label for="replytitle">제목</label>
+						<input id="replytitle" type="text" name="replytitle" required/>
+					</p>
+					<p>
+						<label for="replyname">이름</label>
+						<input id="replyname" type="text" name="replyname" required/>
+					</p>
+					<p class="content">
+						<label for="replycontent">내용</label>
+<textarea id="replycontent" name="replycontent" required>
+
+</textarea>
+					</p>
+					<p class="btnArea">
+						<!-- <a href="04_modify.php?no=<?=$row['no']?>" title="등록"><input class="button" type="button" value="등록"/></a> -->
+						<input class="button" type="submit" value="저장" title="저장"/>	
 					</p>
 				</form>
 			</div>
 		</div>
-<?php
-    $upSql = "UPDATE inboard SET view=view+1 WHERE no='$no' ";
+<!-- <?php
+    // $upSql = "UPDATE inboard SET view=view+1 WHERE no='$no' ";
 	
-	mysqli_query($conn, $upSql);
-	mysqli_close($conn);
-?>
+	// mysqli_query($conn, $upSql);
+	// mysqli_close($conn);
+?> -->
 	</div>
 </body>
 </html>
