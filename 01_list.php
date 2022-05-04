@@ -5,7 +5,7 @@
     session_cache_expire(30);
     session_start();
 
-    $sql = "SELECT * FROM inboard ORDER BY no DESC";
+    $sql = "SELECT * FROM inboard ORDER BY pno DESC, wdate";
     $result = mysqli_query($conn, $sql);
 
 ?>
@@ -13,7 +13,7 @@
 <!DOCTYPE html>
 <html lang="ko">
  <head>
-  <title>list</title>
+  <title><?php echo $_GET['id'] ?></title>
   <meta charset="utf-8"/>
   <style>
 	*{margin:0; padding:0;}
@@ -22,10 +22,11 @@
 	a:hover, a:focus{text-decoration:underline; color:#6a028d;}
 
 	#wrap{width:940px; margin:50px auto;}
-	#wrap h3{padding-bottom:25px; font-size:20px; color:#6a028d; text-align:center; text-transform:uppercase;}
+	#wrap h3{padding-bottom:50px; font-size:20px; color:#6a028d; text-align:center; text-transform:uppercase;}
 
 	#inboard{width:100%; line-height:22px; font-size:14px;}
 	#inboard caption{display:none;}
+	#inboard thead{font-size:12px;}
 	#inboard th, #inboard td{padding:10px; border-bottom:1px solid #f1f1f1;}
 	#inboard th{background-color:#f5f5f5; border-right:1px solid #fefefe;}
 	#inboard td{color:#333; font-size:12px; text-align:center;}
@@ -42,11 +43,12 @@
 		<table id="inboard" title="게시판 제작">
 			<caption>FREE BOARD PRODUCE</caption>
 			<colgroup>
-				<col width="10%"/>
+				<col width="5%"/>
 				<col width="52%"/>
 				<col width="13%"/>
 				<col width="15%"/>
 				<col width="10%"/>
+				<col width="5%"/>
 			</colgroup>
 			<thead>
 				<tr>
@@ -55,6 +57,7 @@
 					<th scope="col">작성자</th>
 					<th scope="col">작성일</th>
 					<th scope="col">조회수</th>
+					<th scope="col">♣</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -71,6 +74,7 @@
                     <td><?=$row['name']?></td>
                     <td><?=$row['wdate']?></td>
                     <td><?=$row['view']?></td>
+					<td><a href="07_comment_write.php?no=<?=$row['no']?>" title="답글">답글</a></td>
                 </tr>
 
 <?php $num++; } ?>

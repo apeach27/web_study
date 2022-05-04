@@ -5,9 +5,8 @@
     // echo "넘겨온 번호 확인하기: ".$no." <br/>";
     
 	$sql = "SELECT * FROM inboard WHERE no='$no' ";
-	
 	$result = mysqli_query($conn, $sql);
-
+	
 	$row = mysqli_fetch_array($result);
 
 	/* --------------------------------- */
@@ -15,18 +14,14 @@
 	session_cache_expire(30);
     session_start();
 
-    $sql = "SELECT * FROM reply WHERE ino = '$no' ";
-	// reply는 inboard의 reply
-	
-	$replyresult = mysqli_query($conn, $sql);
-	// result는 각 부문별로 네임 다르게 설정
+    $sql = "SELECT * FROM reply";
 
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>read</title>
+    <title>reply</title>
     <style>
         *{margin:0; padding:0;}
 	    body{margin:0; padding:0; font:12px/1.2em "Malgun Gothic";}
@@ -48,15 +43,8 @@
         form label[for="content"]{line-height:400px;}
         form .btnArea{display: unset; margin: 0 auto;}
 
-		#reply{display: none; position: relative;}
+		#reply{display: none;}
 		#reply textarea{height: 100px;}
-		#reply .btnArea{position: absolute; right:0; bottom:0;}
-		#reply .btnArea .button{padding:5px 25px;}
-
-		.commentBox{width:100%; border:2px dashed #ccc; padding: 10px; margin-top: 20px; text-align: center;}
-		.commentBox .comment_list{text-align:left;}
-		.commentBox .comment_list p {padding:10px 0; border-bottom: 1px solid #eee;}
-		.commentBox .btnArea{display: block; text-align: right;}
 
     </style>
 	<script type="text/javascript">
@@ -122,10 +110,10 @@
 					</p>
 				</form>
 
-<!-- replay Area -->
 <!-- replay Area (write) -->
+
 				<form id="reply" action="06_reply_control.php" method="POST">
-					<input id="ino" type="hidden" name="ino" value="<?=$no?>"/>
+				<input id="ino" type="hidden" name="ino" value="<?=$no?>"/>
 					<p>
 						<label for="replytitle">제목</label>
 						<input id="replytitle" type="text" name="replytitle" required/>
@@ -142,42 +130,33 @@
 					</p>
 					<p class="btnArea">
 						<!-- <a href="04_modify.php?no=<?=$row['no']?>" title="등록"><input class="button" type="button" value="등록"/></a> -->
-						<input class="button" type="submit" value="등록" title="등록"/>	
+						<input class="button" type="submit" value="저장" title="저장"/>	
 					</p>
 				</form>
 
 				
 <!-- replay Area (read) -->
-				<div class="commentBox">
-					<h4><strong>[ COMMENT ]</strong></h4>
-					<div class="comment_list">
-						
 <?php
 
-	$num=0;
-	while($row = mysqli_fetch_array($replyresult) ){
+    $num=0;
+	while($row = mysqli_fetch_array($result) ){
 
 ?>
-						<p>
-							<strong><?=$row['replytitle']?></strong>
-							<span><?=$row['replyname']?></span><br/>
-							<span><?=$row['replycontent']?></span>
-							<span class="btnArea">
-								<input class="button" type="submit" value="삭제" title="삭제" />
-								<input class="button" type="reset" value="수정" title="수정" />
-							</span>
-						</p>
-<?php $num++; } ?>
-					</div>
+				<div>
+					<p><a href="06_reply.php?no=<?=$row['no']?>" title="replytitle"><?=$row['replytitle']?></a></p>
+					<p><?=$row['replyname']?></p>
+					<p><?=$row['replycontent']?></p>
 				</div>
+<?php $num++; } ?>
+
 			</div>
 		</div>
-<?php
-    $upSql = "UPDATE inboard SET view=view+1 WHERE no='$no' ";
+<!-- <?php
+    // $upSql = "UPDATE inboard SET view=view+1 WHERE no='$no' ";
 	
-	mysqli_query($conn, $upSql);
-	mysqli_close($conn);
-?>
+	// mysqli_query($conn, $upSql);
+	// mysqli_close($conn);
+?> -->
 	</div>
 </body>
 </html>

@@ -4,21 +4,28 @@
 	$replytitle = $_POST['replytitle'];
 	$replyname = $_POST['replyname'];
 	$replycontent = $_POST['replycontent'];
+	$ino = $_POST['ino'];
+	// rno ==> reply 자체증가 넘버
+	// ino --> 해당 reply에 대한 비교 넘버
 
     echo "제목 : ".$replytitle." / 이름 : ".$replyname." / 내용 : ".$replycontent."<br/>";
 
-	
 	if( !empty($replytitle) && !empty($replyname) && !empty($replycontent) ){
          
-    	$sql = "INSERT INTO reply
-		(replytitle, replyname, replycontent)
+    	echo $sql = "INSERT INTO reply
+		(ino, replytitle, replyname, replycontent)
 		VALUES
-		('$replytitle', '$replyname', '$replycontent' )";
-
-		// 굳이 db값을 볼 필요가 없으니 $sql문도 echo 찍어보기 (meta tag 주석처리 후)
-		// view 값 0 (양수 설정)
+		('$ino', '$replytitle', '$replyname', '$replycontent' )";
 
         $result = mysqli_query($conn, $sql);
 	}
 	
+	else{
+		echo "<script>alert('빈칸을 모두 기입해주세요.');  history.go(-1);</script>";
+	}
+
+	mysqli_close($conn);
+
+	echo "<meta http-equiv='Refresh' content='3; url=03_read.php?no=$ino'/>";
+
 ?>

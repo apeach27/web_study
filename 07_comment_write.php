@@ -7,26 +7,23 @@
 	$sql = "SELECT * FROM inboard WHERE no='$no' ";
 	
 	$result = mysqli_query($conn, $sql);
-
 	$row = mysqli_fetch_array($result);
 
 	/* --------------------------------- */
 
 	session_cache_expire(30);
     session_start();
-
-    $sql = "SELECT * FROM reply WHERE ino = '$no' ";
-	// reply는 inboard의 reply
 	
-	$replyresult = mysqli_query($conn, $sql);
-	// result는 각 부문별로 네임 다르게 설정
+	$sql = "SELECT * FROM inboard WHERE pno='$no' ";
+	
+	$commentresult = mysqli_query($conn, $sql);
 
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>read</title>
+    <title>write</title>
     <style>
         *{margin:0; padding:0;}
 	    body{margin:0; padding:0; font:12px/1.2em "Malgun Gothic";}
@@ -58,21 +55,8 @@
 		.commentBox .comment_list p {padding:10px 0; border-bottom: 1px solid #eee;}
 		.commentBox .btnArea{display: block; text-align: right;}
 
+
     </style>
-	<script type="text/javascript">
-
-		let display = true;
-
-		function reDisplay(){
-			let re = document.getElementById("reply");
-			if(re.style.display=='block'){
-				re.style.display = 'none';
-			}else{
-				re.style.display = 'block';
-			}
-		}
-
-	</script>
 </head>
 <body>
     <div id="wrap">
@@ -117,26 +101,26 @@
 					<p class="btnArea">
                         <a href="01_list.php" title="목록"><input class="button" type="button" value="목록"/></a>
 						<a href="04_modify.php?no=<?=$row['no']?>" title="수정"><input class="button" type="button" value="수정"/></a>
-						<a href="javascript:reDisplay();" title="댓글"><input class="button" type="button" value="댓글"/></a>
+						<a href="javascript:reDisplay();" title="답글"><input class="button" type="button" value="답글"/></a>
 						<a href="05_delete.php?no=<?=$row['no']?>" title="삭제"><input class="button" type="button" value="삭제"/></a>	
 					</p>
 				</form>
 
-<!-- replay Area -->
-<!-- replay Area (write) -->
-				<form id="reply" action="06_reply_control.php" method="POST">
-					<input id="ino" type="hidden" name="ino" value="<?=$no?>"/>
+<!-- comment Area -->
+<!-- comment Area (write) -->
+				<form id="inboard" action="07_comment_control.php" method="POST">
+					<input id="pno" type="hidden" name="pno" value="<?=$no?>"/>
 					<p>
-						<label for="replytitle">제목</label>
-						<input id="replytitle" type="text" name="replytitle" required/>
+						<label for="title">제목</label>
+						<input id="title" type="text" name="title" required/>
 					</p>
 					<p>
-						<label for="replyname">이름</label>
-						<input id="replyname" type="text" name="replyname" required/>
+						<label for="name">이름</label>
+						<input id="name" type="text" name="name" required/>
 					</p>
 					<p class="content">
-						<label for="replycontent">내용</label>
-<textarea id="replycontent" name="replycontent" required>
+						<label for="content">내용</label>
+<textarea id="content" name="content" required>
 
 </textarea>
 					</p>
@@ -145,23 +129,21 @@
 						<input class="button" type="submit" value="등록" title="등록"/>	
 					</p>
 				</form>
-
-				
-<!-- replay Area (read) -->
+								
+<!-- comment Area (read) -->
 				<div class="commentBox">
-					<h4><strong>[ COMMENT ]</strong></h4>
 					<div class="comment_list">
 						
 <?php
 
 	$num=0;
-	while($row = mysqli_fetch_array($replyresult) ){
+	while($row = mysqli_fetch_array($commentresult) ){
 
 ?>
 						<p>
-							<strong><?=$row['replytitle']?></strong>
-							<span><?=$row['replyname']?></span><br/>
-							<span><?=$row['replycontent']?></span>
+							<strong><?=$row['title']?></strong>
+							<span><?=$row['name']?></span>
+							<span><?=$row['content']?></span>
 							<span class="btnArea">
 								<input class="button" type="submit" value="삭제" title="삭제" />
 								<input class="button" type="reset" value="수정" title="수정" />
@@ -173,11 +155,15 @@
 			</div>
 		</div>
 <?php
-    $upSql = "UPDATE inboard SET view=view+1 WHERE no='$no' ";
+    echo $sql = "UPDATE inboard SET view=view+1 WHERE no='$no' ";
 	
-	mysqli_query($conn, $upSql);
+	echo mysqli_query($conn, $sql);
 	mysqli_close($conn);
 ?>
+	</div>
+
+			</div>
+		</div>
 	</div>
 </body>
 </html>
