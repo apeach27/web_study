@@ -27,6 +27,11 @@
  <body>
 	<div id="wrap">
 		<h3>FREE BOARD PRODUCE</h3>
+		<div class="link">
+			<span>*</span><a href="01_board_basic.php" title="home">HOME</a>
+			<span>*</span><a href="00_login.php" title="login">LOGIN</a>
+			<span>*</span><a href="00_join_form.php" title="join">JOIN</a>
+		</div>
 		<table id="inboard" title="게시판 제작">
 			<caption>FREE BOARD PRODUCE</caption>
 			<colgroup>

@@ -40,6 +40,22 @@
  <body>
 	<div id="wrap">
 		<h3>FREE BOARD PRODUCE</h3>
+
+		<div class="link">
+			<span>*</span><a href="#none" title="home">HOME</a>
+
+<? if(empty($_SESSION['userid'])){ ?>
+			<span>*</span><a href="00_1_logout.php" title="login">LOGIN</a>
+
+<?php }else{ ?>
+			<strong style="color:red;"><?=$_SESSION['userid']?></strong>님 환영합니다.
+			<span>*</span><a href="00_1_logout.php" title="logout">LOGOUT</a>
+			
+<?php } ?>
+
+			<span>*</span><a href="00_join_form.php" title="join">JOIN</a>
+		</div>
+
 		<table id="inboard" title="게시판 제작">
 			<caption>FREE BOARD PRODUCE</caption>
 			<colgroup>

@@ -9,7 +9,7 @@
 	$result = mysqli_query($conn, $sql);
 	$row = mysqli_fetch_array($result);
 
-	/* --------------------------------- */
+	/* ----------------- 댓글 ---------------- */
 
 	session_cache_expire(30);
     session_start();
@@ -45,10 +45,10 @@
         form label[for="content"]{line-height:400px;}
         form .btnArea{display: unset; margin: 0 auto;}
 
-		#reply{display: none; position: relative;}
-		#reply textarea{height: 100px;}
-		#reply .btnArea{position: absolute; right:0; bottom:0;}
-		#reply .btnArea .button{padding:5px 25px;}
+		#inboard{display: none; position: relative;}
+		#inboard textarea{height: 100px;}
+		#inboard .btnArea{position: absolute; right:0; bottom:0;}
+		#inboard .btnArea .button{padding:5px 25px;}
 
 		.commentBox{width:100%; border:2px dashed #ccc; padding: 10px; margin-top: 20px; text-align: center;}
 		.commentBox .comment_list{text-align:left;}
@@ -57,6 +57,19 @@
 
 
     </style>
+	<script type="text/javascript">
+
+		let display = true;
+
+		function reDisplay(){
+			let borad = document.getElementById("inboard");
+			if(borad.style.display=='block'){
+				borad.style.display = 'none';
+			}else{
+				borad.style.display = 'block';
+			}
+		}
+	</script>
 </head>
 <body>
     <div id="wrap">
@@ -109,7 +122,8 @@
 <!-- comment Area -->
 <!-- comment Area (write) -->
 				<form id="inboard" action="07_comment_control.php" method="POST">
-					<input id="pno" type="hidden" name="pno" value="<?=$no?>"/>
+					<input id="pno" type="hidden" name="pno" value="<?=$row['pno']?>"/>
+					<!-- 답글 -->
 					<p>
 						<label for="title">제목</label>
 						<input id="title" type="text" name="title" required/>
@@ -132,6 +146,7 @@
 								
 <!-- comment Area (read) -->
 				<div class="commentBox">
+					<h4><strong>[ COMMENT ]</strong></h4>
 					<div class="comment_list">
 						
 <?php
@@ -142,11 +157,11 @@
 ?>
 						<p>
 							<strong><?=$row['title']?></strong>
-							<span><?=$row['name']?></span>
+							<span><?=$row['name']?></span><br/>
 							<span><?=$row['content']?></span>
 							<span class="btnArea">
-								<input class="button" type="submit" value="삭제" title="삭제" />
 								<input class="button" type="reset" value="수정" title="수정" />
+								<input class="button" type="submit" value="삭제" title="삭제" />
 							</span>
 						</p>
 <?php $num++; } ?>
@@ -155,9 +170,9 @@
 			</div>
 		</div>
 <?php
-    echo $sql = "UPDATE inboard SET view=view+1 WHERE no='$no' ";
+    $sql = "UPDATE inboard SET view=view+1 WHERE no='$no' ";
 	
-	echo mysqli_query($conn, $sql);
+	mysqli_query($conn, $sql);
 	mysqli_close($conn);
 ?>
 	</div>

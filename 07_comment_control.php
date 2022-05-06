@@ -17,7 +17,7 @@
 		VALUES
 		('$pno', '$title', '$name', '$content' )";
 
-        $commentresult = mysqli_query($conn, $sql);
+    	echo $commentresult = mysqli_query($conn, $sql);
 	}
     else{
 		echo "<script>alert('빈칸을 모두 기입해주세요.');  history.go(-1);</script>";

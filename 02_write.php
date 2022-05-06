@@ -1,3 +1,14 @@
+<?php
+	include "00_conn.php";
+
+    $no = $_GET['no'];
+
+	$sql = "SELECT * FROM fileup WHERE fno = '$no' ";
+	$fileresult = mysqli_query($conn, $sql);
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,6 +36,47 @@
         form .btnArea{display: unset;}
 
     </style>
+	<script type="text/javascript">
+
+	function formSubmit(f) {
+
+		// 업로드 할 수 있는 파일 확장자를 제한합니다.
+		let extArray = new Array('hwp','xls','doc','xlsx','docx','pdf','jpg','gif','png','txt','ppt','pptx');
+
+		let path = document.getElementById("fileup").value;
+
+		if(path == "") {
+			alert("파일을 선택해 주세요.");
+			return false;
+		}
+
+		let pos = path.indexOf(".");
+
+		if(pos < 0) {
+			alert("확장자가 없는파일 입니다.");
+			return false;
+		}
+
+		let ext = path.slice(path.indexOf(".") + 1).toLowerCase();
+
+		let checkExt = false;
+
+		for(let i = 0; i < extArray.length; i++) {
+
+			if(ext == extArray[i]) {
+				checkExt = true;
+				break;
+			}
+		}
+
+		if(checkExt == false) {
+			alert("업로드 할 수 없는 파일 확장자 입니다.");
+			return false;
+		}
+			return true;
+		}
+
+</script>
 </head>
 <body>
     <div id="wrap">
@@ -58,14 +110,42 @@
 	
 </textarea>
 					</p>
+
 					<p class="btnArea">
 						<input class="button" type="submit" value="저장" title="저장"/>
 						<input class="button" type="reset" value="다시쓰기" title="다시쓰기"/>
 						<a href="01_list.php" title="목록"><input class="button" type="button" value="목록"/></a>
 					</p>
+
+
 				</form>
+
+<!-- file upload -->
+				<form id="uploadForm" name="uploadForm" action="upload.php" method="POST" enctype="multipart/form-data">
+					
+<?php
+
+$num=0;
+while($row = mysqli_fetch_array($fileresult) ){
+
+?>
+					<p>
+						<label for="fileup"></label>
+						<input type="file" name="fileup" id="fileup" />
+						<input type="submit" value="업로드" />
+					</p>
+
+<?php $num++; } ?>
+				</form>
+
 			</div>
 		</div>
+<?php
+    $upSql = "UPDATE fileup SET view=view+1 WHERE no='$no' ";
+	
+	mysqli_query($conn, $upSql);
+	mysqli_close($conn);
+?>
 	</div>
 </body>
 </html>

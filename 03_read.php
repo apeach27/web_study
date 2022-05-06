@@ -15,11 +15,15 @@
 	session_cache_expire(30);
     session_start();
 
-    $sql = "SELECT * FROM reply WHERE ino = '$no' ";
-	// reply는 inboard의 reply
+    $sql = "SELECT * FROM reply WHERE ino = '$no' ORDER BY ino DESC, rno DESC";
+	// reply는 inboard의 reply (댓글은 내림차순)
+	// 대댓글은 오름차순!!!
 	
 	$replyresult = mysqli_query($conn, $sql);
 	// result는 각 부문별로 네임 다르게 설정
+
+    $sql = "SELECT * FROM reply WHERE ino = '$no' ORDER BY ino DESC, rno";
+	$replyresult = mysqli_query($conn, $sql);
 
 ?>
 <!DOCTYPE html>
@@ -123,7 +127,7 @@
 				</form>
 
 <!-- replay Area -->
-<!-- replay Area (write) -->
+<!-- replay Area (write) 댓글 -->
 				<form id="reply" action="06_reply_control.php" method="POST">
 					<input id="ino" type="hidden" name="ino" value="<?=$no?>"/>
 					<p>
@@ -141,15 +145,36 @@
 </textarea>
 					</p>
 					<p class="btnArea">
-						<!-- <a href="04_modify.php?no=<?=$row['no']?>" title="등록"><input class="button" type="button" value="등록"/></a> -->
+						<input class="button" type="submit" value="등록" title="등록"/>	
+					</p>
+				</form>
+				
+<!-- cbox_text (write) 대댓글 -->
+				<form id="reply" action="07_comment_control.php.php" method="POST">
+					<input id="rno" type="hidden" name="rno" value="<?=$ino?>"/>
+					<p>
+						<label for="replytitle">제목</label>
+						<input id="replytitle" type="text" name="replytitle" required/>
+					</p>
+					<p>
+						<label for="replyname">이름</label>
+						<input id="replyname" type="text" name="replyname" required/>
+					</p>
+					<p class="content">
+						<label for="replycontent">내용</label>
+<textarea id="replycontent" name="replycontent" required>
+
+</textarea>
+					</p>
+					<p class="btnArea">
 						<input class="button" type="submit" value="등록" title="등록"/>	
 					</p>
 				</form>
 
 				
-<!-- replay Area (read) -->
+<!-- cbox_text (read) -->
 				<div class="commentBox">
-					<h4><strong>[ COMMENT ]</strong></h4>
+					<h4><strong>[ REPLY ]</strong></h4>
 					<div class="comment_list">
 						
 <?php
@@ -163,8 +188,9 @@
 							<span><?=$row['replyname']?></span><br/>
 							<span><?=$row['replycontent']?></span>
 							<span class="btnArea">
-								<input class="button" type="submit" value="삭제" title="삭제" />
+								<a href="javascript:reDisplay();" title="댓글"><input class="button" type="button" value="대댓글"/></a>
 								<input class="button" type="reset" value="수정" title="수정" />
+								<input class="button" type="submit" value="삭제" title="삭제" />
 							</span>
 						</p>
 <?php $num++; } ?>
