@@ -1,11 +1,17 @@
 <?php
+
 	include "00_conn.php";
 
     $no = $_GET['no'];
+	
+	$sql = "SELECT * FROM inboard WHERE no='$no' ";
+
+	/* ----------------- file ---------------- */
 
 	$sql = "SELECT * FROM fileup WHERE fno = '$no' ";
+	
 	$fileresult = mysqli_query($conn, $sql);
-
+	$row = mysqli_fetch_array($result);
 
 ?>
 
@@ -74,7 +80,7 @@
 			return false;
 		}
 			return true;
-		}
+	}
 
 </script>
 </head>
@@ -87,7 +93,7 @@
 					<h2>자유게시판</h2>
 					<p>도현쓰 게시판입니다!</p>
 				</div>
-				<form action="02_write_control.php" method="POST">
+				<form action="02_write_control.php" method="POST" enctype="multipart/form-data">
 					<p>
 						<label for="title">제목</label>
 						<input id="title" type="text" name="title" placeholder="제목을 입력해주세요" required/>
@@ -111,6 +117,10 @@
 </textarea>
 					</p>
 
+					<!-- file upload -->
+					<p>
+						<input type="file" name="fileup" id="fileup" />
+					</p>
 					<p class="btnArea">
 						<input class="button" type="submit" value="저장" title="저장"/>
 						<input class="button" type="reset" value="다시쓰기" title="다시쓰기"/>
@@ -120,32 +130,8 @@
 
 				</form>
 
-<!-- file upload -->
-				<form id="uploadForm" name="uploadForm" action="upload.php" method="POST" enctype="multipart/form-data">
-					
-<?php
-
-$num=0;
-while($row = mysqli_fetch_array($fileresult) ){
-
-?>
-					<p>
-						<label for="fileup"></label>
-						<input type="file" name="fileup" id="fileup" />
-						<input type="submit" value="업로드" />
-					</p>
-
-<?php $num++; } ?>
-				</form>
-
 			</div>
 		</div>
-<?php
-    $upSql = "UPDATE fileup SET view=view+1 WHERE no='$no' ";
-	
-	mysqli_query($conn, $upSql);
-	mysqli_close($conn);
-?>
 	</div>
 </body>
 </html>

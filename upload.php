@@ -1,6 +1,8 @@
 <?php
     include "00_conn.php";
 
+    $fno = $_POST['fno'];
+
     if(isset($_FILES['fileup']) && $_FILES['fileup']['name'] != "") {
 
         $file = $_FILES['fileup'];

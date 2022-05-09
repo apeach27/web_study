@@ -25,6 +25,8 @@
     $sql = "SELECT * FROM reply WHERE ino = '$no' ORDER BY ino DESC, rno";
 	$replyresult = mysqli_query($conn, $sql);
 
+
+	
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -118,6 +120,10 @@
 
 </textarea>
 					</p>
+					<p class="myfiles">
+						<!-- <label for="name_orig">파일명</label> -->
+					</p>
+					
 					<p class="btnArea">
                         <a href="01_list.php" title="목록"><input class="button" type="button" value="목록"/></a>
 						<a href="04_modify.php?no=<?=$row['no']?>" title="수정"><input class="button" type="button" value="수정"/></a>

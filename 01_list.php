@@ -60,7 +60,8 @@
 			<caption>FREE BOARD PRODUCE</caption>
 			<colgroup>
 				<col width="5%"/>
-				<col width="52%"/>
+				<col width="45%"/>
+				<col width="5%"/>
 				<col width="13%"/>
 				<col width="15%"/>
 				<col width="10%"/>
@@ -70,6 +71,7 @@
 				<tr>
 					<th scope="col">번호</th>
 					<th scope="col">제목</th>
+					<th scope="col">File</th>
 					<th scope="col">작성자</th>
 					<th scope="col">작성일</th>
 					<th scope="col">조회수</th>
@@ -87,6 +89,7 @@
                 <tr>
                     <td><a href="03_read.php?no=<?=$row['no']?>" title="no"><?=$num+1?></a></td>
                     <td><a href="03_read.php?no=<?=$row['no']?>" title="title"><?=$row['title']?></a></td>
+                    <td><a href="03_read.php?no=<?=$row['no']?>" title="file"><?=$row['myfiles']?>파일</a></td>
                     <td><?=$row['name']?></td>
                     <td><?=$row['wdate']?></td>
                     <td><?=$row['view']?></td>
