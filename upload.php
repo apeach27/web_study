@@ -27,9 +27,15 @@
         $path = md5(microtime()) . '.' . $ext;
 
         if(move_uploaded_file($file['tmp_name'], $upload_directory.$path)) {
+            // move_uploaded_file --> 실제 저장 위치로 이동
     
             echo $query = "INSERT INTO fileup (file_id, name_orig, name_save, reg_time) VALUES(?,?,?,now())";
-    
+            //  VALUES(?,?,?,now())" 아래 코드와 동일한 내용, parameter
+            // $sql = "INSERT INTO inboard
+            // (name, email, pass, title, content, wdate)
+            // VALUES
+            // ('$name', '$email', '$pass', '$title', '$content', now())";
+
             $file_id = md5(uniqid(rand(), true));
             $name_orig = $file['name']; 
             $name_save = $path;

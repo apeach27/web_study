@@ -37,6 +37,8 @@
 		// 같은 테이블이므로 $result 네임 동일해도 괜찮음 
 
 		/* --------------------------------------- */
+		
+		$upfile = Trim($_FILES['fileup']['name']);
 
 		if(isset($_FILES['fileup']) && $_FILES['fileup']['name'] != "") {
 

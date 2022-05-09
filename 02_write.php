@@ -6,13 +6,6 @@
 	
 	$sql = "SELECT * FROM inboard WHERE no='$no' ";
 
-	/* ----------------- file ---------------- */
-
-	$sql = "SELECT * FROM fileup WHERE fno = '$no' ";
-	
-	$fileresult = mysqli_query($conn, $sql);
-	$row = mysqli_fetch_array($result);
-
 ?>
 
 <!DOCTYPE html>

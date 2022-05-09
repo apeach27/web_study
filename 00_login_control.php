@@ -11,14 +11,14 @@
 	
     $row = mysqli_fetch_array($result);
 
-	echo "넘어오는 정보 확인 : ".$row['userid']." / ".$row['userpw']."<br/>";
+	// echo "넘어오는 정보 확인 : ".$row['userid']." / ".$row['userpw']."<br/>";
 
 	if($row['userid'] == $userid && $row['userpw'] == $userpw){
 
 		session_start();
 		$_SESSION['userid'] = $userid;
 
-		echo "<p style='text-align:center; color:blue;'>인증 완료되었습니다.</p>";
+		// echo "<p style='text-align:center; color:blue;'>인증 완료되었습니다.</p>";
 		echo "<meta http-equiv='Refresh' content='1; url=01_list.php'/>";
 
     }

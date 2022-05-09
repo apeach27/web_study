@@ -5,8 +5,44 @@
     session_cache_expire(30);
     session_start();
 
-    $sql = "SELECT * FROM inboard ORDER BY pno DESC, wdate";
+	// ------------- 페이징 START
+	$per_page = 5;
+
+	$page = (empty($_GET['page']))? 1 : $_GET['page'];
+	// == if문
+	// page 페이지
+
+	$offset = ($page-1) * $per_page;
+	// 시작페이지 1 --> 0페이지 부터 시작 (-1)
+
+    $query = "SELECT count(*) AS cnt FROM inboard";
+	$total_result = mysqli_query($conn, $query);
+	$total = mysqli_fetch_array($total_result,MYSQLI_ASSOC);
+
+    $total_page = ceil($total['cnt']/$per_page);
+	// 전체 덩어리(블럭) = 전체 페이지 / 덩어리 당 페이지
+	// ceil : 올림
+
+	// $now_page = ceil($page / $per_page);
+	// 현재 블럭 = 페이지 / 블럭 당 페이지
+
+	// $start_page = ($now_page-1) * ($per_page+1);
+	// 시작 페이지 = 현재 번호 * 블럭 당 페이지 수
+	// $end_page = $now_page * $per_page;
+	// 마지막 페이지 = 현재 번호 * 블럭 당 페이지 수
+
+    $sql = "SELECT * FROM inboard ORDER BY pno DESC, wdate LIMIT $offset, $per_page";
+	// LIMIT : 몇 번부터, 몇 번
+	// ex) 게시글 15개 : 0~5 / 5~10 / 10~15
+
     $result = mysqli_query($conn, $sql);
+
+	// ------------- 테이블 넘버링 START
+	$num = $total['cnt'] - ( ($page-1) * $per_page );
+	// 페이지 넘길때 마다 +1
+
+	$list = $per_page;
+	$block_cnt = $list;
 
 ?>
 
@@ -28,6 +64,7 @@
 	#inboard caption{display:none;}
 	#inboard thead{font-size:12px;}
 	#inboard th, #inboard td{padding:10px; border-bottom:1px solid #f1f1f1;}
+	#inboard .page{padding: 0;}
 	#inboard th{background-color:#f5f5f5; border-right:1px solid #fefefe;}
 	#inboard td{color:#333; font-size:12px; text-align:center;}
 	#inboard .writeClk td{border:none;}
@@ -35,6 +72,9 @@
 	.writeClk{text-align:right;}
 	.writeClk a{padding:5px 10px; border:1px solid #ccc; color:#333;}
 	.writeClk a:hover, .writeClk a:focus{font-weight:700; background-color:#6a028d; color:#fff; text-decoration:none;}
+
+	.page{padding-top: 30px; text-align: center;}
+	.page a{display: inline-block; width: 40px;}
   </style>
  </head>
  <body>
@@ -81,31 +121,73 @@
 			<tbody>
 <?php
 
-    $num=0;
+    // $num=0;
     // while($row = mysqli_query($conn, $sql) ){
 	while($row = mysqli_fetch_array($result) ){
 
 ?>
                 <tr>
-                    <td><a href="03_read.php?no=<?=$row['no']?>" title="no"><?=$num+1?></a></td>
-                    <td><a href="03_read.php?no=<?=$row['no']?>" title="title"><?=$row['title']?></a></td>
+                    <td>
+						<a href="03_read.php?no=<?=$row['no']?>" title="no"><?=$num?></a>
+					</td>
+                    <td>
+						<a href="03_read.php?no=<?=$row['no']?>" title="title"><?=$row['title']?></a>
+					</td>
                     <td><a href="03_read.php?no=<?=$row['no']?>" title="file"><?=$row['myfiles']?>파일</a></td>
                     <td><?=$row['name']?></td>
                     <td><?=$row['wdate']?></td>
                     <td><?=$row['view']?></td>
 					<td><a href="07_comment_write.php?no=<?=$row['no']?>" title="답글">답글</a></td>
                 </tr>
-
-<?php $num++; } ?>
+<?php $num--; } ?>
 
 				<tr class="writeClk">
-					<td colspan="5">
+					<td colspan="7">
                         <a href="01_list.php" title="HOME">HOME</a>
+<?php if(!empty($_SESSION['userid'])){ ?>
 						<a href="02_write.php" title="글쓰기">글쓰기</a>
+<?php }?>
 					</td>
 				</tr>
 			</tbody>
 		</table>
+		
+<!-- 페이지 구분하기 -->
+		<div class="page">
+			<p>
+	<!-- 이전 -->
+<?php
+	if($page <= 1){
+?>
+				<a href="01_list.php?page=1">처음</a>
+<?php } else{ ?>
+				<a href="01_list.php?page=<?php echo ($page-1) ?>">이전</a>
+<?php }?>
+
+	<!-- 페이지번호 출력 -->
+<?php
+	for($print_page = 1; $print_page <= $total_page; $print_page++){
+		// 페이지는 1부터 시작, 마지막 페이지는 전체 페이지까지 출력~
+
+		if($page == $print_page){
+			echo "<b><a>$print_page</a></b>";
+		}else{
+			echo "<a href='01_list.php?page=$print_page'>$print_page</a>";
+		}
+		// 현재 페이지 굵게
+?>
+<?php }?>
+
+	<!-- 다음 -->
+<?php
+	if($page >= $total_page){
+?>
+				<a href="01_list.php?page=<?php echo $total_page ?>">마지막</a>
+<?php } else{ ?>
+				<a href="01_list.php?page=<?php echo ($page+1) ?>">다음</a>
+<?php } ?>
+			</p>
+		</div>
 	</div>
  </body>
 </html>

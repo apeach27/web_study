@@ -60,8 +60,7 @@
 				</tr>
 				<tr class="writeClk">
 					<td colspan="5">
-						<a href="01_list.php" title="HOME">HOME</a>
-						<a href="02_write.php" title="글쓰기">글쓰기</a>
+						<a href="01_board_basic.php" title="HOME">HOME</a>
 					</td>
 				</tr>
 			</tbody>

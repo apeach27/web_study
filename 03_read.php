@@ -1,15 +1,20 @@
 <?php
     include "00_conn.php";
+	// db 연결하기
     
     $no = $_GET['no'];
     // echo "넘겨온 번호 확인하기: ".$no." <br/>";
     
+	// 글 정보 가져오기
 	$sql = "SELECT * FROM inboard WHERE no='$no' ";
-	
 	$result = mysqli_query($conn, $sql);
-
 	$row = mysqli_fetch_array($result);
 
+	// 파일 정보 가져오기
+	$fsql = "SELECT * FROM fileup WHERE fno='$no' ";
+	$fileresult = mysqli_query($conn, $fsql);
+	$frow = mysqli_fetch_array($fileresult);
+	
 	/* --------------------------------- */
 
 	session_cache_expire(30);
@@ -20,11 +25,12 @@
 	// 대댓글은 오름차순!!!
 	
 	$replyresult = mysqli_query($conn, $sql);
-	// result는 각 부문별로 네임 다르게 설정
+	// result는 각 테이블별 네임을 각각 설정하는 것을 권장
 
     $sql = "SELECT * FROM reply WHERE ino = '$no' ORDER BY ino DESC, rno";
 	$replyresult = mysqli_query($conn, $sql);
 
+	/* --------------------------------- */
 
 	
 ?>
@@ -120,10 +126,13 @@
 
 </textarea>
 					</p>
-					<p class="myfiles">
-						<!-- <label for="name_orig">파일명</label> -->
-					</p>
 					
+				<!-- file upload -->
+					<p>
+						<span>첨부파일</span>
+						<span width="400"> <input type="file" name="name_save" size="20" ><a href="data/<?=$frow['name_save']?>" target="_blank"><?=$frow['name_save']?> </a></span>
+					</p>
+
 					<p class="btnArea">
                         <a href="01_list.php" title="목록"><input class="button" type="button" value="목록"/></a>
 						<a href="04_modify.php?no=<?=$row['no']?>" title="수정"><input class="button" type="button" value="수정"/></a>
