@@ -6,16 +6,22 @@
 	$name = $_POST['name'];
 	$content = $_POST['content'];
 	$pno = $_POST['pno'];
+	$grpno = $_POST['grpno'];
+	$grplevel = $_POST['grplevel'];
 
-    echo "제목 : ".$title." / 이름 : ".$name." / 내용 : ".$content."<br/>";
+
+    // echo "제목 : ".$title." / 이름 : ".$name." / 내용 : ".$content."<br/>";
 
     
 	if( !empty($title) && !empty($name) && !empty($content) ){
+
+		$upsql = "UPDATE inboard set grpno= grpno+1 where pno = $data[pno] and grpno > $data[grpno] ";
+    	echo $updateresult = mysqli_query($conn, $upsql);
          
     	echo $sql = "INSERT INTO inboard
-		(pno, title, name, content)
+		(pno, grpno, grplevel, title, name, content)
 		VALUES
-		('$pno', '$title', '$name', '$content' )";
+		('$pno', '$grpno', '$grplevel', '$title', '$name', '$content' )";
 
     	echo $commentresult = mysqli_query($conn, $sql);
 	}
@@ -25,5 +31,5 @@
 
 	mysqli_close($conn);
 
-	// echo "<meta http-equiv='Refresh' content='2; url=01_list.php?no=$pno'/>";
+	echo "<meta http-equiv='Refresh' content='1; url=01_list.php?no=$pno'/>";
 ?>

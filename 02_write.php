@@ -1,12 +1,3 @@
-<?php
-
-	include "00_conn.php";
-
-    $no = $_GET['no'];
-	
-	$sql = "SELECT * FROM inboard WHERE no='$no' ";
-
-?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -119,10 +110,7 @@
 						<input class="button" type="reset" value="다시쓰기" title="다시쓰기"/>
 						<a href="01_list.php" title="목록"><input class="button" type="button" value="목록"/></a>
 					</p>
-
-
 				</form>
-
 			</div>
 		</div>
 	</div>

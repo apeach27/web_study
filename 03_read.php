@@ -130,7 +130,10 @@
 				<!-- file upload -->
 					<p>
 						<span>첨부파일</span>
-						<span width="400"> <input type="file" name="name_save" size="20" ><a href="data/<?=$frow['name_save']?>" target="_blank"><?=$frow['name_save']?> </a></span>
+						<span width="400">
+							<a href="data/<?=$frow['name_save']?>" target="_blank"><?=$frow['name_save']?><input type="file" name="name_save" size="20" value="" /></a>
+							<!-- version error?? -->
+						</span>
 					</p>
 
 					<p class="btnArea">

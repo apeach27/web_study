@@ -12,10 +12,13 @@
 	// == if문
 	// page 페이지
 
+	$category = isset($_GET['cate'])? $_GET['cate'] : '';
+	$search = isset($_GET['search'])? $_GET['search'] : '';
+
 	$offset = ($page-1) * $per_page;
 	// 시작페이지 1 --> 0페이지 부터 시작 (-1)
 
-    $query = "SELECT count(*) AS cnt FROM inboard";
+    $query = "SELECT count(*) AS cnt FROM inboard where $category LIKE '%$search%' ";
 	$total_result = mysqli_query($conn, $query);
 	$total = mysqli_fetch_array($total_result,MYSQLI_ASSOC);
 
@@ -23,15 +26,7 @@
 	// 전체 덩어리(블럭) = 전체 페이지 / 덩어리 당 페이지
 	// ceil : 올림
 
-	// $now_page = ceil($page / $per_page);
-	// 현재 블럭 = 페이지 / 블럭 당 페이지
-
-	// $start_page = ($now_page-1) * ($per_page+1);
-	// 시작 페이지 = 현재 번호 * 블럭 당 페이지 수
-	// $end_page = $now_page * $per_page;
-	// 마지막 페이지 = 현재 번호 * 블럭 당 페이지 수
-
-    $sql = "SELECT * FROM inboard ORDER BY pno DESC, wdate LIMIT $offset, $per_page";
+    $sql = "SELECT * FROM inboard where $category LIKE '%$search%' ORDER BY pno DESC, wdate LIMIT $offset, $per_page";
 	// LIMIT : 몇 번부터, 몇 번
 	// ex) 게시글 15개 : 0~5 / 5~10 / 10~15
 
@@ -75,6 +70,8 @@
 
 	.page{padding-top: 30px; text-align: center;}
 	.page a{display: inline-block; width: 40px;}
+
+
   </style>
  </head>
  <body>
@@ -85,7 +82,7 @@
 			<span>*</span><a href="#none" title="home">HOME</a>
 
 <? if(empty($_SESSION['userid'])){ ?>
-			<span>*</span><a href="00_1_logout.php" title="login">LOGIN</a>
+			<span>*</span><a href="00_login.php" title="login">LOGIN</a>
 
 <?php }else{ ?>
 			<strong style="color:red;"><?=$_SESSION['userid']?></strong>님 환영합니다.
@@ -107,6 +104,7 @@
 				<col width="10%"/>
 				<col width="5%"/>
 			</colgroup>
+
 			<thead>
 				<tr>
 					<th scope="col">번호</th>
@@ -141,6 +139,10 @@
                 </tr>
 <?php $num--; } ?>
 
+				<tr>
+					<td></td>
+				</tr>
+
 				<tr class="writeClk">
 					<td colspan="7">
                         <a href="01_list.php" title="HOME">HOME</a>
@@ -151,7 +153,33 @@
 				</tr>
 			</tbody>
 		</table>
-		
+
+<!-- 검색 -->
+<?php
+		while($row = mysqli_fetch_array($result)){ ?>
+
+                <tr>
+                    <td><?=$row['no']?></td>
+                    <td><?=$row['title']?></td>
+                    <td><?=$row['myfiles']?></td>
+                    <td><?=$row['name']?></td>
+                    <td><?=$row['wdate']?></td>
+                    <td><?=$row['view']?></td>
+					<td><a href="07_comment_write.php?no=<?=$row['no']?>" title="답글">답글</a></td>
+                </tr>
+<?php } ?>
+
+		<div class="searchBox">	
+			<form action="<?=$_SERVER[ "PHP_SELF" ]?>" method="get">
+				<select name="cate">
+					<option value="title">제 목</option>
+					<option value="name">작성자</option>
+					<option value="content">내 용</option>
+				</select>
+				<input type="text" name="search" id="search" style="text-indent: 5px;" /> <button class="btn">검색</button>
+			</form>
+		</div>
+
 <!-- 페이지 구분하기 -->
 		<div class="page">
 			<p>
@@ -172,11 +200,17 @@
 		if($page == $print_page){
 			echo "<b><a>$print_page</a></b>";
 		}else{
-			echo "<a href='01_list.php?page=$print_page'>$print_page</a>";
+			echo '<a href="01_list.php?page='.$print_page.'&search='.$search.'">'.$print_page.'</a>';
 		}
 		// 현재 페이지 굵게
+
+
 ?>
-<?php }?>
+<?php }
+
+
+
+?>
 
 	<!-- 다음 -->
 <?php

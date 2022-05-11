@@ -8,7 +8,7 @@
 	// rno ==> reply 자체증가 넘버
 	// ino --> 해당 reply에 대한 비교 넘버
 
-    echo "제목 : ".$replytitle." / 이름 : ".$replyname." / 내용 : ".$replycontent."<br/>";
+    // echo "제목 : ".$replytitle." / 이름 : ".$replyname." / 내용 : ".$replycontent."<br/>";
 
 	if( !empty($replytitle) && !empty($replyname) && !empty($replycontent) ){
          

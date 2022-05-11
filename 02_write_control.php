@@ -12,10 +12,11 @@
 
 	if( !empty($title) && !empty($name) && !empty($email) && !empty($pass) && !empty($content) ){
          
+		// 게시글 등록
     	$sql = "INSERT INTO inboard
 		(name, email, pass, title, content, wdate)
 		VALUES
-		('$name', '$email', '$pass', '$title', '$content', now())";
+		('$name', '$email', '$pass', '$title', '$content', now() )";
 
 		// 굳이 db값을 볼 필요가 없으니 $sql문도 echo 찍어보기 (meta tag 주석처리 후)
 		// view 값 0 (양수 설정)
@@ -24,7 +25,7 @@
 		// 1) 새로고침 시 NULL값이 발생
 		//		원글 작성 시 inboard의 no와 pno를 같게 만들어 주는 과정은 배열 활용하면 유용
 
-        $result = mysqli_query($conn, $sql);
+        $result = mysqli_query($conn, $sql);  // 글저장
 		$sql = 'SELECT last_insert_id() AS last_id';
 		// 2) 배열 이름을 간단한 last_id로 만들어줌
 		$result = mysqli_query($conn, $sql);
@@ -37,8 +38,8 @@
 		// 같은 테이블이므로 $result 네임 동일해도 괜찮음 
 
 		/* --------------------------------------- */
-		
-		$upfile = Trim($_FILES['fileup']['name']);
+
+		// $upfile = Trim($_FILES['fileup']['name']);
 
 		if(isset($_FILES['fileup']) && $_FILES['fileup']['name'] != "") {
 
@@ -78,19 +79,17 @@
 				mysqli_stmt_close($stmt);
 		
 				echo"<h3>파일 업로드 성공</h3>";
-				//echo "<meta http-equiv='Refresh' content='1; url=01_list.php'/>";
+				echo "<meta http-equiv='Refresh' content='1; url=01_list.php'/>";
 	
 			}
-	
 		}
-
 	}
 	
 	else{
 		echo "<script>alert('필수 입력정보입니다.'); history.go(-1);</script>";
 	}
 
-	mysqli_close($conn);
+	mysqli_close($conn); // mysql 접속 끊기
 
 	echo "<meta http-equiv='Refresh' content='2; url=01_list.php'/>";
 ?>

@@ -4,7 +4,7 @@
 
 	$no = $_GET['no'];
 
-	echo "넘어오는 번호 확인: ".$no." ";
+	// echo "넘어오는 번호 확인: ".$no." ";
 
 	$sql = "SELECT * FROM inboard WHERE no='$no' ";
 	$result = MYSQLI_QUERY($conn, $sql);

@@ -4,7 +4,7 @@
 	$userid = $_POST['userid'];
 	$userpw = $_POST['userpw'];
 
-	echo "넘어오는 정보 확인 ".$userid." / ".$userpw."<br/>";
+	// echo "넘어오는 정보 확인 ".$userid." / ".$userpw."<br/>";
 
 	$sql = "SELECT * FROM members WHERE userid='$userid' AND userpw='$userpw' ";
 	$result = mysqli_query($conn, $sql);

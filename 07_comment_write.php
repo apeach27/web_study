@@ -15,8 +15,14 @@
     session_start();
 	
 	$sql = "SELECT * FROM inboard WHERE pno='$no' ";
-	
 	$commentresult = mysqli_query($conn, $sql);
+
+		
+	$sql = "SELECT * FROM inboard WHERE pno='$no' ";
+	$commentresult = mysqli_query($conn, $sql);
+
+	// $sql =" UPDATE inboard set grpno +1 where pno = $data[pno] and grpno > $data[grpno]";
+
 
 ?>
 <!DOCTYPE html>
@@ -123,6 +129,8 @@
 <!-- comment Area (write) -->
 				<form id="inboard" action="07_comment_control.php" method="POST">
 					<input id="pno" type="hidden" name="pno" value="<?=$row['pno']?>"/>
+					<input id="grpno" type="hidden" name="grpno" value="<?=$row['grpno']+1 ?>"/>
+					<input id="grplevel" type="hidden" name="grplevel" value="<?=$row['grplevel']+1 ?>"/>
 					<!-- 답글 -->
 					<p>
 						<label for="title">제목</label>
