@@ -17,13 +17,6 @@
 	$sql = "SELECT * FROM inboard WHERE pno='$no' ";
 	$commentresult = mysqli_query($conn, $sql);
 
-		
-	$sql = "SELECT * FROM inboard WHERE pno='$no' ";
-	$commentresult = mysqli_query($conn, $sql);
-
-	// $sql =" UPDATE inboard set grpno +1 where pno = $data[pno] and grpno > $data[grpno]";
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">

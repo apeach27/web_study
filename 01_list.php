@@ -13,13 +13,18 @@
 	// page 페이지
 
 		// ------------- 검색 start
-	$category = isset($_GET['cate'])? $_GET['cate'] : '';
+	$category = isset($_GET['cate'])? $_GET['cate'] : 'title';
 	$search = isset($_GET['search'])? $_GET['search'] : '';
 
 	$offset = ($page-1) * $per_page;
 	// 시작페이지 1 --> 0페이지 부터 시작 (-1)
 
-    $query = "SELECT count(*) AS cnt FROM inboard where $category LIKE '%$search%' ";
+	$where = '';
+	if( $search ){
+		$where = ' WHERE '.$category.  ' LIKE "%'.$search.'%"';
+	}
+
+    $query = "SELECT count(*) AS cnt FROM inboard " . $where;
 	$total_result = mysqli_query($conn, $query);
 	$total = mysqli_fetch_array($total_result,MYSQLI_ASSOC);
 
@@ -27,7 +32,7 @@
 	// 전체 덩어리(블럭) = 전체 페이지 / 덩어리 당 페이지
 	// ceil : 올림
 
-    $sql = "SELECT * FROM inboard where $category LIKE '%$search%' ORDER BY pno DESC, wdate LIMIT $offset, $per_page";
+    $sql = "SELECT * FROM inboard ".$where." ORDER BY pno DESC, wdate LIMIT $offset, $per_page";
 	// LIMIT : 몇 번부터, 몇 번
 	// ex) 게시글 15개 : 0~5 / 5~10 / 10~15
 
@@ -122,6 +127,7 @@
 
     // $num=0;
     // while($row = mysqli_query($conn, $sql) ){
+	$kk = 0;
 	while($row = mysqli_fetch_array($result) ){
 
 ?>
@@ -138,8 +144,16 @@
                     <td><?=$row['view']?></td>
 					<td><a href="07_comment_write.php?no=<?=$row['no']?>" title="답글">답글</a></td>
                 </tr>
-<?php $num--; } ?>
-
+<?php $num--;
+	$kk++;
+} // endwhile
+if( $kk==0){ ?>
+	<tr>
+		<td colspan="7">글없음</td>
+	</tr>
+<?php
+} 
+?>
 				<tr>
 					<td></td>
 				</tr>
