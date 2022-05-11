@@ -12,6 +12,7 @@
 	// == if문
 	// page 페이지
 
+		// ------------- 검색 start
 	$category = isset($_GET['cate'])? $_GET['cate'] : '';
 	$search = isset($_GET['search'])? $_GET['search'] : '';
 
@@ -155,20 +156,6 @@
 		</table>
 
 <!-- 검색 -->
-<?php
-		while($row = mysqli_fetch_array($result)){ ?>
-
-                <tr>
-                    <td><?=$row['no']?></td>
-                    <td><?=$row['title']?></td>
-                    <td><?=$row['myfiles']?></td>
-                    <td><?=$row['name']?></td>
-                    <td><?=$row['wdate']?></td>
-                    <td><?=$row['view']?></td>
-					<td><a href="07_comment_write.php?no=<?=$row['no']?>" title="답글">답글</a></td>
-                </tr>
-<?php } ?>
-
 		<div class="searchBox">	
 			<form action="<?=$_SERVER[ "PHP_SELF" ]?>" method="get">
 				<select name="cate">
