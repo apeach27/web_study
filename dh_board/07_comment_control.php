@@ -32,4 +32,8 @@
 	mysqli_close($conn);
 
 	echo "<meta http-equiv='Refresh' content='1; url=01_list.php?no=$pno'/>";
+<<<<<<< HEAD
 ?>
+=======
+?>
+>>>>>>> bc04e69a9e9c495155ce86693dce2b6f47db39ce

@@ -46,4 +46,8 @@
 
 	echo "<meta http-equiv='Refresh' content='3; url=03_read.php?no=$ino'/>";
 
+<<<<<<< HEAD
 ?>
+=======
+?>
+>>>>>>> bc04e69a9e9c495155ce86693dce2b6f47db39ce

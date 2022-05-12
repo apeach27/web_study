@@ -19,4 +19,8 @@
 	else{
 		echo "<strong style='color:blue'>사용 가능한 아이디입니다.</strong>";
 	}
+<<<<<<< HEAD
 ?>
+=======
+?>
+>>>>>>> bc04e69a9e9c495155ce86693dce2b6f47db39ce

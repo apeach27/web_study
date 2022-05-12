@@ -30,4 +30,8 @@
 	mysqli_close($conn);
 
 	echo "<meta http-equiv='Refresh' content='5; url=01_list.php'/>";
+<<<<<<< HEAD
 ?>
+=======
+?>
+>>>>>>> bc04e69a9e9c495155ce86693dce2b6f47db39ce

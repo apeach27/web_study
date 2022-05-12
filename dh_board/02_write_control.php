@@ -92,4 +92,8 @@
 	mysqli_close($conn); // mysql 접속 끊기
 
 	echo "<meta http-equiv='Refresh' content='2; url=01_list.php'/>";
+<<<<<<< HEAD
 ?>
+=======
+?>
+>>>>>>> bc04e69a9e9c495155ce86693dce2b6f47db39ce

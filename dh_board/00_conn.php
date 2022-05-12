@@ -11,4 +11,8 @@
 
 	$conn -> set_charset("utf8");
 
+<<<<<<< HEAD
 ?>
+=======
+?>
+>>>>>>> bc04e69a9e9c495155ce86693dce2b6f47db39ce

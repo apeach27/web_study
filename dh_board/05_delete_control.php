@@ -21,4 +21,8 @@
 		echo "<script>alert('비밀번호를 확인해 주세요'); history.go(-1);</script>";
 	}
 
+<<<<<<< HEAD
 ?>
+=======
+?>
+>>>>>>> bc04e69a9e9c495155ce86693dce2b6f47db39ce

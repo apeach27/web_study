@@ -27,4 +27,8 @@
 		echo "<p style='text-align:center; color:red;'>회원가입에 실패했습니다.</p>";
 	}
 
+<<<<<<< HEAD
 ?>
+=======
+?>
+>>>>>>> bc04e69a9e9c495155ce86693dce2b6f47db39ce

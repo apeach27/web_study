@@ -27,4 +27,8 @@
         </p>
     </form>
 </body>
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> bc04e69a9e9c495155ce86693dce2b6f47db39ce

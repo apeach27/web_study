@@ -25,4 +25,8 @@
 	else{
 		echo "<script>alert('아이디 또는 비밀번호가 일치하지 않습니다.'); history.go(-1);</script>";
 	}
+<<<<<<< HEAD
 ?>
+=======
+?>
+>>>>>>> bc04e69a9e9c495155ce86693dce2b6f47db39ce
